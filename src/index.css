@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.uploaded-images{
+  @apply w-52 h-52 
+}
+
+.title-container{
+  @apply text-center
+}
+
+.title{
+  @apply text-2xl font-bold
+}
+
+.sub-title{
+  @apply text-lg font-semibold
+}
+
+.uploader-container{
+  @apply flex flex-col items-center justify-center mt-20
+}
+
+.image-btns{
+  @apply flex justify-around mx-72 mt-1
+}
+
+.sign-in-btn{
+  @apply mb-16
+}
+
+.preview-image-container{
+  @apply mt-5
+}
+
+.sign-in-container{
+  @apply bg-gray-500 w-[50%] mx-auto pb-5 pt-2 text-white rounded-md mt-[-50px]
+}
+
+.sign-in-btns{
+  @apply flex flex-col
+}
+
+.signed-in-container{
+  @apply bg-gray-500 w-[50%] mx-auto text-white py-5 rounded-md mt-[-65px]
+}
+
