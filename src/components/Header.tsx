@@ -111,7 +111,7 @@ export default function Header(){
                     </div>   
                 </div>
             : showMenu && signedIn ? 
-                <div className="signed-in-container">
+                <div className="sign-in-container">
                     <h3>Signed in as {email}</h3>
                     <button onClick={handleSignOut}>Sign out</button>
                 </div>

@@ -35,14 +35,11 @@
 }
 
 .sign-in-container{
-  @apply bg-gray-500 w-[50%] mx-auto pb-5 pt-2 text-white rounded-md mt-[-50px]
+  @apply bg-gray-500 w-[50%] mx-auto pb-5 pt-2 text-white fixed top-24 left-0 right-0
 }
 
 .sign-in-btns{
   @apply flex flex-col
 }
 
-.signed-in-container{
-  @apply bg-gray-500 w-[50%] mx-auto text-white py-5 rounded-md mt-[-65px]
-}
 
