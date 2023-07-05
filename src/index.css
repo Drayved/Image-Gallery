@@ -42,4 +42,31 @@
   @apply flex flex-col
 }
 
+/* Image save css */
+
+.img-btns{
+  @apply flex justify-between
+}
+
+.modal{
+  @apply bg-gray-400 p-2 fixed rounded-md
+}
+
+.modal-content{
+  @apply flex flex-col 
+}
+
+.default-folder{
+  
+}
+
+.new-folder-container{
+  @apply flex flex-col my-2 px-1.5
+}
+
+.create-folder-btn{
+  @apply text-white bg-green-600 mt-2 w-32 mx-auto rounded-xl py-1
+}
+
+
 
