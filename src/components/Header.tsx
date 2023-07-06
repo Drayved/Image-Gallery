@@ -25,11 +25,7 @@ export default function Header() {
     const db = getFirestore(app);
     const usersCollectionRef = collection(db, 'users');
   
-    const userDocumentRef = doc(usersCollectionRef, user.uid);
-  
-    const userData = {
-      username: user.email
-    };
+    const userDocumentRef = doc(usersCollectionRef, email);
   
     const folderCollectionRef = collection(userDocumentRef, 'folders');
   
@@ -101,6 +97,7 @@ export default function Header() {
         const user = userCredential.user;
         console.log('User signed up:', user);
         // Add any further logic you want to perform after sign-up
+        createUserFolderCollection()
       })
       .catch((error) => {
         // An error occurred while signing up
