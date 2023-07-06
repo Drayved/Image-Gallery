@@ -23,11 +23,11 @@
 }
 
 .image-btns{
-  @apply flex justify-around mx-72 mt-1
+  @apply flex justify-center
 }
 
 .sign-in-btn{
-  @apply mb-16
+  @apply mb-16 mx-10
 }
 
 .preview-image-container{
@@ -35,7 +35,7 @@
 }
 
 .sign-in-container{
-  @apply bg-gray-500 w-[50%] mx-auto pb-5 pt-2 text-white fixed top-24 left-0 right-0
+  @apply bg-gray-500 w-[50%] mx-auto pb-5 pt-2 text-white fixed top-24 left-0 right-0 max-w-[600px]
 }
 
 .sign-in-btns{
