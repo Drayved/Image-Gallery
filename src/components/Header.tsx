@@ -6,7 +6,7 @@ import { getFirestore } from "firebase/firestore";
 import { MyContext, MyContextValue } from '../App'
 
 export default function Header() {
-  const { selectedFolder, setSelectedFolder, newFolderName, setNewFolderName, availableFolders, setAvailableFolders, selectedFile, setSelectedFile } = useContext(MyContext);
+  // const { selectedFolder, setSelectedFolder, newFolderName, setNewFolderName, availableFolders, setAvailableFolders, selectedFile, setSelectedFile } = useContext(MyContext);
   const [showMenu, setShowMenu] = useState(false);
   const [newUser, setNewUser] = useState(false);
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ export default function Header() {
     const user = auth.currentUser;
   
     if (!user) {
-      console.error('No authenticated user found.');
+      console.error('No authenticated user found. ');
       return;
     }
   
