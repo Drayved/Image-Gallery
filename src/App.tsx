@@ -1,6 +1,7 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromChildren, Outlet } from "react-router-dom";
 import Layout from "./components/Layout";
+import Folders from "./components/Folders";
 
 export interface MyContextValue {
   selectedFolder: string | null;
@@ -9,9 +10,10 @@ export interface MyContextValue {
   setNewFolderName: (name: string) => void;
   availableFolders: string[];
   setAvailableFolders: (folders: ((prevFolders: string[]) => string[]) | string[]) => void;
-  selectedFile: FileList | null
-  setSelectedFile: (file: FileList | null) => void
-  
+  selectedFile: File | null
+  setSelectedFile: (file: File| null) => void
+  email: string;
+  setEmail: (email: any) => void
 }
 
 export const MyContext = createContext<MyContextValue>({
@@ -22,7 +24,9 @@ export const MyContext = createContext<MyContextValue>({
   availableFolders: ["default"],
   setAvailableFolders: () => {''},
   selectedFile: null,
-  setSelectedFile: () => {''}
+  setSelectedFile: () => {''},
+  email: "",
+  setEmail: () => {''}
 });
 
 function App() {
@@ -31,13 +35,15 @@ function App() {
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [availableFolders, setAvailableFolders] = useState<string[]>(["default"]);
-  const [selectedFile, setSelectedFile] = useState<FileList | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  
 
   const router = createBrowserRouter(
     createRoutesFromChildren(
-      <Route path={"/"} element={<Layout />} />
-      /* <Route path="/folders" element={<GetGames />} />
-      <Route path="/all-images" element={<GamesSaved />} /> */
+      <>
+        <Route path={"/"} element={<Layout />} />
+        <Route path="/folders" element={<Folders />} />
+       </>
     )
   );
 
@@ -52,7 +58,9 @@ function App() {
           availableFolders,
           setAvailableFolders,
           selectedFile,
-          setSelectedFile
+          setSelectedFile,
+          email,
+          setEmail
         }}
       >
         <RouterProvider router={router} />

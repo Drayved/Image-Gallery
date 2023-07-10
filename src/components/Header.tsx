@@ -1,56 +1,78 @@
-import { useState, useContext } from "react";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
+import { useState, useEffect, useContext } from "react";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import app from '../../firebaseConfig';
 import { collection, doc, setDoc, getDocs } from "firebase/firestore";
 import { getFirestore } from "firebase/firestore";
-import { MyContext, MyContextValue } from '../App'
+import { getStorage, ref, uploadString, getDownloadURL, uploadBytes } from "firebase/storage";
+import { MyContext }  from '../App'
+import { Link } from 'react-router-dom'
 
 export default function Header() {
   // const { selectedFolder, setSelectedFolder, newFolderName, setNewFolderName, availableFolders, setAvailableFolders, selectedFile, setSelectedFile } = useContext(MyContext);
   const [showMenu, setShowMenu] = useState(false);
   const [newUser, setNewUser] = useState(false);
-  const [email, setEmail] = useState("");
+  const {email, setEmail} = useContext(MyContext)
   const [password, setPassword] = useState("");
   const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    const auth = getAuth(app);
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setSignedIn(true);
+        setEmail(user.email);
+      } else {
+        setSignedIn(false);
+        setEmail("");
+      }
+    });
+  }, []);
 
   async function createUserFolderCollection() {
     const auth = getAuth(app);
     const user = auth.currentUser;
+    
   
     if (!user) {
       console.error('No authenticated user found. ');
       return;
     }
+    const userId = user.uid
+  //   const db = getFirestore(app);
+  //   const usersCollectionRef = collection(db, 'users');
   
-    const db = getFirestore(app);
-    const usersCollectionRef = collection(db, 'users');
+  //   const userDocumentRef = doc(usersCollectionRef, userId);
   
-    const userDocumentRef = doc(usersCollectionRef, email);
+  //   const folderCollectionRef = collection(userDocumentRef, 'folders');
   
-    const folderCollectionRef = collection(userDocumentRef, 'folders');
+  //   // Check if the folder already exists
+  //   const folderQuerySnapshot = await getDocs(folderCollectionRef);
+  //   if (!folderQuerySnapshot.empty) {
+  //     console.log('Folders already exist for the user. Skipping folder creation.');
+  //     return;
+  //   }
   
-    // Check if the folder already exists
-    const folderQuerySnapshot = await getDocs(folderCollectionRef);
-    if (!folderQuerySnapshot.empty) {
-      console.log('Folders already exist for the user. Skipping folder creation.');
-      return;
-    }
+  //   // Create a new folder document within the folder collection
+  //   const folderDocumentRef = doc(folderCollectionRef, "default");
   
-    // Create a new folder document within the folder collection
-    const folderDocumentRef = doc(folderCollectionRef, "default");
+  //   // Set the data for the folder document (if needed)
+  //   const folderData = {
+  //     folder: 'default'
+  //   };
   
-    // Set the data for the folder document (if needed)
-    const folderData = {
-      folder: 'default'
-    };
-  
-      // Write the folder document to the database
-  try {
-    await setDoc(folderDocumentRef, folderData);
-    console.log('Folder document created successfully!');
-  } catch (error) {
-    console.error('Error creating folder document:', error);
-  }
+  //     // Write the folder document to the database
+  // try {
+  //   await setDoc(folderDocumentRef, folderData);
+  //   console.log('Folder document created successfully!');
+  // } catch (error) {
+  //   console.error('Error creating folder document:', error);
+  // }
+
+  const storage = getStorage(app);
+  const userFolderRef = ref(storage, `users/${userId}/`);
+  const dummyFileRef = ref(userFolderRef, 'dummy.txt');
+  await uploadString(dummyFileRef, 'Dummy content');
+  console.log('User-specific folder created successfully!');
 }
 
   function handleSignInMenu() {
@@ -79,13 +101,13 @@ export default function Header() {
         console.log(auth.currentUser)
         // Add any further logic you want to perform after sign-in
         createUserFolderCollection()
-        
+        setSignedIn(true)
       })
         .catch((error) => {
           // An error occurred while signing in
           console.error('Error signing in:', error);
         });
-        setSignedIn(true)
+        
         
     }
     
@@ -122,7 +144,7 @@ export default function Header() {
           <h1 className="title">Image Uploader</h1>
           <h3 className="sub-title">Upload your images and keep them in 1 place</h3>
           <div className="image-btns">
-              <button>Folders</button>
+              <button><Link to="/folders">Folders</Link></button>
               {signedIn ?
                   <button className="sign-in-btn" onClick={handleSignInMenu}>Signed in as {email}</button>
                   :
