@@ -1,41 +1,49 @@
 import { useEffect, useState } from 'react';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
+import { getStorage, ref, listAll, getDownloadURL } from 'firebase/storage';
 import app from '../../firebaseConfig';
+import { getAuth } from 'firebase/auth';
 
-export default function Images({ folderId }: {folderId: string}){
-    const auth = getAuth(app);
-    const user = auth.currentUser;
-    const userId = user ? user.uid : '';
-    const [images, setImages] = useState<{ id: string; name: string, url:string;}[]>([]);
-  
-    useEffect(() => {
-      const fetchImages = async () => {
-        try {
-          const db = getFirestore();
-          const imagesCollectionRef = collection(db, 'users', userId, 'folders', folderId , 'images');
-          const querySnapshot = await getDocs(imagesCollectionRef);
-          const imageData = querySnapshot.docs.map((doc) => ({
-            id: doc.id,
-            url: doc.data().url,
-            name: doc.data().name
-          }));
-          setImages(imageData);
-        } catch (error) {
-          console.error('Error fetching Images:', error);
-        }
-      };
-  
-      if (user) {
-        fetchImages();
+interface ImagesProps {
+  folderId?: string;
+  showAll?: boolean;
+}
+
+export default function Images({ folderId, showAll }: ImagesProps) {
+  const [images, setImages] = useState<{ id: string; name: string; url: string }[]>([]);
+  const auth = getAuth(app);
+  const user = auth.currentUser;
+  const userId = user ? user.uid : '';
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      try {
+        const storage = getStorage(app);
+        const folderRef = ref(storage, `users/${userId}/folders/${folderId}/images`);
+        const filesList = await listAll(folderRef);
+        const imagePromises = filesList.items.map(async (file) => {
+          const imageUrl = await getDownloadURL(file);
+          return {
+            id: file.name,
+            url: imageUrl,
+            name: file.name
+          };
+        });
+
+        const imageResults = await Promise.all(imagePromises);
+        setImages(imageResults);
+      } catch (error) {
+        console.error('Error fetching Images:', error);
       }
-    }, [userId, user, folderId]);
+    };
 
-    return(
-        <div>
-          {images.map((image) =>(
-            <img key={image.id} src={image.url} alt={`Image ${image.name}`} />
-          ))}
-        </div>
-    )
+    fetchImages();
+  }, [folderId, userId]);
+
+  return (
+    <div>
+      {images.map((image) => (
+        <img key={image.id} src={image.url} alt={`Image ${image.name}`} />
+      ))}
+    </div>
+  );
 }

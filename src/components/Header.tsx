@@ -151,7 +151,7 @@ export default function Header() {
                   <button className="sign-in-btn" onClick={handleSignInMenu}>Sign In</button>
               }
 
-              <button>All images</button>
+              <button><Link to="all-images">All images</Link></button>
           </div>
           {showMenu && !signedIn ?       
               <div className="sign-in-container">

@@ -2,6 +2,7 @@ import { useEffect, useState, createContext, useContext } from "react";
 import { createBrowserRouter, RouterProvider, Route, createRoutesFromChildren, Outlet } from "react-router-dom";
 import Layout from "./components/Layout";
 import Folders from "./components/Folders";
+import Images from "./components/Images";
 
 export interface MyContextValue {
   selectedFolder: string | null;
@@ -43,6 +44,7 @@ function App() {
       <>
         <Route path={"/"} element={<Layout />} />
         <Route path="/folders" element={<Folders />} />
+        <Route path="/all-images" element={<Images />} />
        </>
     )
   );
