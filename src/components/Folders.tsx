@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { getAuth } from 'firebase/auth';
 import app from '../../firebaseConfig';
 import { getStorage, ref, listAll } from 'firebase/storage';
 import Images from './Images';
+import { MyContext }  from '../App'
+import { Link } from 'react-router-dom'
 
 export default function Folders() {
   const auth = getAuth(app);
@@ -10,7 +12,8 @@ export default function Folders() {
   const userId = user ? user.uid : '';
   const [folders, setFolders] = useState<string[]>([]);
   const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
-  const [showAll, setShowAll] = useState<boolean>(false);
+  
+  const {showAll, setShowAll} = useContext(MyContext)
 
   useEffect(() => {
     const fetchFolders = async () => {
@@ -32,24 +35,44 @@ export default function Folders() {
 
     fetchFolders();
   }, [userId, user]);
-
-  const handleShowImages = (folder: string) => {
-    setSelectedFolder(folder === selectedFolder ? null : folder);
-    setShowAll(false);
-  };
-
-
+  
 
   return (
     <div>
-      <h2>My Folders</h2>
-      
-      {folders.map((folder) => (
-        <div key={folder}>
-          <h3 onClick={() => handleShowImages(folder)}>{folder}</h3>
-          {showAll || (selectedFolder === folder && <Images folderId={folder} />)}
+      {!showAll && (
+        <>
+          <h2 className='text-xl text-center font-semibold'>My Folders</h2>
+          <h3 className='fixed left-0 top-0 font-italic '><Link to="/">return to home</Link></h3>
+          {folders.map((folder) => (
+            <div onClick={() => setSelectedFolder(folder)} key={folder}>
+              <div className='folder-container'>
+                <img className='folder-img' src="../images/folder-icon.png" alt="" />
+                <h3>{folder}</h3>
+              </div>
+              
+              {selectedFolder === folder && <Images folderId={folder} />}
+            </div>
+          ))}
+        </>
+      )}
+      {showAll && (
+        <>
+        <div>
+          
+          <h1 className='text-xl text-center font-semibold'>My Images</h1>
+          <h3 className='fixed left-0 top-0 font-italic '><Link to="/">return to home</Link></h3>
         </div>
-      ))}
+        
+        
+        {folders.map((folder) => (
+            <div key={folder}>
+              
+              {<Images folderId={folder} showAll={true} />}
+            </div>
+          ))}
+        </>
+        
+      )}
     </div>
   );
 }

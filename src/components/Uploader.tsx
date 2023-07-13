@@ -2,30 +2,17 @@ import { ChangeEvent, useState, useEffect, useContext } from 'react';
 import {
   getFirestore,
   collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  doc,
   onSnapshot,
-  setDoc,
-  updateDoc,
-  getDoc,
 } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
-import firebaseConfig from '../../firebaseConfig';
+
 import {
   getStorage,
   ref,
-  uploadBytes,
   getDownloadURL,
-  UploadTaskSnapshot,
   uploadString,
-  getMetadata,
-  list,
-  ListResult
 } from 'firebase/storage';
-import { MyContext, MyContextValue } from '../App';
+import { MyContext } from '../App';
 import app from '../../firebaseConfig';
 
 export default function Uploader() {
@@ -191,21 +178,3 @@ export default function Uploader() {
     </div>
   );
 }
-
-// async function getFolders(folderRef) {
-//   const folders = [];
-//   const foldersSnapshot = await getDocs(folderRef);
-//   foldersSnapshot.forEach((doc) => {
-//     folders.push(doc.name);
-//   });
-//   return folders;
-// }
-
-// async function getFolderSnapshot(folderRef) {
-//   try {
-//     const snapshot = await getDownloadURL(folderRef);
-//     return snapshot;
-//   } catch (error) {
-//     return null;
-//   }
-// }

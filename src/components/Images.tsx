@@ -18,18 +18,38 @@ export default function Images({ folderId, showAll }: ImagesProps) {
     const fetchImages = async () => {
       try {
         const storage = getStorage(app);
-        const folderRef = ref(storage, `users/${userId}/folders/${folderId}/images`);
-        const filesList = await listAll(folderRef);
-        const imagePromises = filesList.items.map(async (file) => {
-          const imageUrl = await getDownloadURL(file);
-          return {
-            id: file.name,
-            url: imageUrl,
-            name: file.name
-          };
-        });
+        let imageResults: { id: string; name: string; url: string }[] = [];
 
-        const imageResults = await Promise.all(imagePromises);
+        if (showAll) {
+          const folderRef = ref(storage, `users/${userId}/folders/${folderId}/images`);
+          const filesList = await listAll(folderRef);
+
+          const imagePromises = filesList.items.map(async (file) => {
+            const imageUrl = await getDownloadURL(file);
+            return {
+              id: file.name,
+              url: imageUrl,
+              name: file.name
+            };
+          });
+
+          imageResults = await Promise.all(imagePromises);
+        } else if (folderId) {
+          const folderRef = ref(storage, `users/${userId}/folders/${folderId}/images`);
+          const filesList = await listAll(folderRef);
+
+          const imagePromises = filesList.items.map(async (file) => {
+            const imageUrl = await getDownloadURL(file);
+            return {
+              id: file.name,
+              url: imageUrl,
+              name: file.name
+            };
+          });
+
+          imageResults = await Promise.all(imagePromises);
+        }
+
         setImages(imageResults);
       } catch (error) {
         console.error('Error fetching Images:', error);
@@ -37,12 +57,12 @@ export default function Images({ folderId, showAll }: ImagesProps) {
     };
 
     fetchImages();
-  }, [folderId, userId]);
+  }, [folderId, showAll, userId]);
 
   return (
-    <div>
+    <div className='image-container'>
       {images.map((image) => (
-        <img key={image.id} src={image.url} alt={`Image ${image.name}`} />
+        <img className='image' key={image.id} src={image.url} alt={`Image ${image.name}`} />
       ))}
     </div>
   );

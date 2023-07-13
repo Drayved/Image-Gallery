@@ -68,5 +68,21 @@
   @apply text-white bg-green-600 mt-2 w-32 mx-auto rounded-xl py-1
 }
 
+.image-container {
+  @apply flex flex-wrap justify-center
 
+}
+
+.image {
+  @apply h-52 m-1 w-52
+ 
+}
+
+.folder-img{
+  @apply w-6 mr-1
+}
+
+.folder-container{
+  @apply flex mt-2 cursor-pointer w-5 
+}
 

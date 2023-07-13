@@ -15,6 +15,8 @@ export interface MyContextValue {
   setSelectedFile: (file: File| null) => void
   email: string;
   setEmail: (email: any) => void
+  showAll: boolean
+  setShowAll: (value: boolean) => void
 }
 
 export const MyContext = createContext<MyContextValue>({
@@ -27,7 +29,9 @@ export const MyContext = createContext<MyContextValue>({
   selectedFile: null,
   setSelectedFile: () => {''},
   email: "",
-  setEmail: () => {''}
+  setEmail: () => {''},
+  showAll: false,
+  setShowAll: () => {''}
 });
 
 function App() {
@@ -37,6 +41,7 @@ function App() {
   const [newFolderName, setNewFolderName] = useState<string>("");
   const [availableFolders, setAvailableFolders] = useState<string[]>(["default"]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [showAll, setShowAll] = useState(false)
   
 
   const router = createBrowserRouter(
@@ -44,7 +49,7 @@ function App() {
       <>
         <Route path={"/"} element={<Layout />} />
         <Route path="/folders" element={<Folders />} />
-        <Route path="/all-images" element={<Images />} />
+        <Route path="/all-images" element={<Folders />} />
        </>
     )
   );
@@ -62,7 +67,9 @@ function App() {
           selectedFile,
           setSelectedFile,
           email,
-          setEmail
+          setEmail,
+          showAll,
+          setShowAll
         }}
       >
         <RouterProvider router={router} />

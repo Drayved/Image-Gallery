@@ -11,9 +11,10 @@ export default function Header() {
   // const { selectedFolder, setSelectedFolder, newFolderName, setNewFolderName, availableFolders, setAvailableFolders, selectedFile, setSelectedFile } = useContext(MyContext);
   const [showMenu, setShowMenu] = useState(false);
   const [newUser, setNewUser] = useState(false);
-  const {email, setEmail} = useContext(MyContext)
+  const {email, setEmail, setShowAll} = useContext(MyContext)
   const [password, setPassword] = useState("");
   const [signedIn, setSignedIn] = useState(false);
+  
 
   useEffect(() => {
     const auth = getAuth(app);
@@ -139,19 +140,27 @@ export default function Header() {
     }
   }
 
+  function handleShowAllImages() {
+    setShowAll(true);
+  }
+
+  function handleFoldersClick() {
+    setShowAll(false);
+  }
+
     return(
       <div className="title-container">
           <h1 className="title">Image Uploader</h1>
           <h3 className="sub-title">Upload your images and keep them in 1 place</h3>
           <div className="image-btns">
-              <button><Link to="/folders">Folders</Link></button>
+              <button onClick={handleFoldersClick}><Link to="/folders">Folders</Link></button>
               {signedIn ?
                   <button className="sign-in-btn" onClick={handleSignInMenu}>Signed in as {email}</button>
                   :
                   <button className="sign-in-btn" onClick={handleSignInMenu}>Sign In</button>
               }
 
-              <button><Link to="all-images">All images</Link></button>
+              <button onClick={handleShowAllImages}><Link to="all-images">All images</Link></button>
           </div>
           {showMenu && !signedIn ?       
               <div className="sign-in-container">
