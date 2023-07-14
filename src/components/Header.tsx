@@ -167,7 +167,7 @@ export default function Header() {
                   <h3>Email:</h3>
                   <input className="text-black" type="email" onChange={handleEmailChange}/>
                   <h3>Password:</h3>
-                  <input type="password" onChange={handlePasswordChange}/>
+                  <input className="text-black" type="password" onChange={handlePasswordChange}/>
                   <div >
                       {newUser ? 
                           <div className="sign-in-btns">
