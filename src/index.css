@@ -38,6 +38,10 @@
   @apply bg-gray-500 w-[50%] mx-auto pb-5 pt-2 text-white fixed top-24 left-0 right-0 max-w-[600px]
 }
 
+.signed-in-container{
+  @apply flex flex-col
+}
+
 .sign-in-btns{
   @apply flex flex-col
 }
@@ -54,10 +58,6 @@
 
 .modal-content{
   @apply flex flex-col 
-}
-
-.default-folder{
-  
 }
 
 .new-folder-container{
@@ -86,3 +86,6 @@
   @apply flex mt-2 cursor-pointer w-5 
 }
 
+.close-btn{
+  @apply italic
+}

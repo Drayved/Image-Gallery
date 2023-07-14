@@ -178,14 +178,16 @@ export default function Header() {
                           <div className="sign-in-btns">
                               <button onClick={() => signInUser(email, password)}>Sign In</button>
                               <button onClick={handleNewUserMenu}>New user? Sign up</button>
+                              <button className="close-btn" onClick={handleSignInMenu}>Close menu</button>
                           </div>
                       }
                   </div>   
               </div>
           : showMenu && signedIn ? 
-              <div className="sign-in-container">
+              <div className="sign-in-container signed-in-container">
                   <h3>Signed in as {email}</h3>
                   <button onClick={handleSignOut}>Sign out</button>
+                  <button className="close-btn" onClick={handleSignInMenu}>Close menu</button>
               </div>
       : ""}
       </div>
