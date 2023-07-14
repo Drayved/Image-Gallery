@@ -19,7 +19,7 @@ A simple web application that allows users to upload and organize images in fold
 
 ## Project Link
 
-You can access the Quizzical application [here](davids-image-uploader.netlify.app).
+You can access the Quizzical application [here](https://davids-image-uploader.netlify.app).
 
 
 # About
