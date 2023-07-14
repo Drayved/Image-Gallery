@@ -5,7 +5,7 @@ A simple web application that allows users to upload and organize images in fold
 ## Features
 
 - User authentication using Firebase
-- Create, delete, and manage folders for organizing images
+- Create and manage folders for organizing images
 - Upload images to specific folders
 - View images within folders
 - Toggle between showing all images or images within a specific folder
