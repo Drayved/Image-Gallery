@@ -17,7 +17,9 @@ A simple web application that allows users to upload and organize images in fold
 - TypeScript
 - Tailwind CSS
 
+## Project Link
 
+You can access the Quizzical application [here](davids-image-uploader.netlify.app).
 
 
 # About
